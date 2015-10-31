@@ -8,7 +8,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
 /**
  * Hello world!
@@ -17,25 +22,77 @@ import javax.swing.JFrame;
 public class App extends Canvas implements Runnable, KeyListener {
 
 	private static final long serialVersionUID = 3679586979411270682L;
-	
-	public static final int WIDTH = 400, HEIGHT = 540;
+
+	public static final int WIDTH = 400, HEIGHT = 565;
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("TETRIS");
+		final JFrame frame = new JFrame("TETRIS");
 		frame.setSize(WIDTH, HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
+		frame.setLayout(null);
 
-		App app = new App();
+		final App app = new App();
+		app.setBounds(0, 25, WIDTH, HEIGHT - 25);
 		frame.add(app);
+
+		final JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, WIDTH, 25);
+
+		final JMenu fileMenu = new JMenu("File");
+		fileMenu.setBounds(0, 0, 45, 24);
+
+		final JMenuItem newGame = new JMenuItem("New Game");
+		newGame.addActionListener((e) -> {
+			System.out.println("Staring new game...");
+		});
+
+		final JMenuItem highScore = new JMenuItem("High Score");
+		highScore.addActionListener((e) -> {
+			final int currentHighScore = 0;
+			
+			final JFrame alert = new JFrame("High Score");
+			
+			final JLabel scoreLabel = new JLabel("The high score is : " + currentHighScore);
+			scoreLabel.setBounds(10, 10, 200, 50);
+			alert.add(scoreLabel);
+			
+			final JButton okBtn = new JButton("OK");
+			okBtn.setBounds(50, 80, 100, 30);
+			okBtn.addActionListener((okBtnEvent) -> {
+				alert.dispose();
+			});
+			
+			alert.add(okBtn);
+			
+			alert.setSize(200, 150);
+			alert.setLayout(null);
+			alert.setLocationRelativeTo(null);
+			alert.setResizable(false);
+			alert.setVisible(true);
+		});
+
+		final JMenuItem exitGame = new JMenuItem("Exit");
+		exitGame.addActionListener((e) -> {
+			System.out.println("Closing");
+			System.exit(0);
+		});
+
+		fileMenu.add(newGame);
+		fileMenu.add(highScore);
+		fileMenu.add(exitGame);
+
+		menuBar.add(fileMenu);
+
+		frame.add(menuBar);
 		frame.setVisible(true);
 
 		app.gameStart();
 	}
 
 	public void gameStart() {
-		Thread t = new Thread(this);
+		final Thread t = new Thread(this);
 		t.setPriority(Thread.MAX_PRIORITY);
 		t.start();
 	}
@@ -45,12 +102,12 @@ public class App extends Canvas implements Runnable, KeyListener {
 		boolean running = true;
 		while (running) {
 			update();
-			BufferStrategy bs = getBufferStrategy();
+			final BufferStrategy bs = getBufferStrategy();
 			if (bs == null) {
 				createBufferStrategy(3);
 				continue;
 			}
-			Graphics2D g = (Graphics2D) bs.getDrawGraphics();
+			final Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 			render(g);
 			bs.show();
 		}
@@ -59,7 +116,7 @@ public class App extends Canvas implements Runnable, KeyListener {
 	public void update() {
 
 	}
-	
+
 	public void render(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
