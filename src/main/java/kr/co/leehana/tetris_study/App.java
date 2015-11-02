@@ -1,24 +1,11 @@
 package kr.co.leehana.tetris_study;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-
-/**
- * Hello world!
- *
- */
 public class App extends Canvas implements Runnable, KeyListener {
 
 	private static final long serialVersionUID = 3679586979411270682L;
@@ -28,10 +15,12 @@ public class App extends Canvas implements Runnable, KeyListener {
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("TETRIS");
 		frame.setSize(WIDTH, HEIGHT);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setLayout(null);
+
+		KeyGetter.loadKeys();
 
 		final App app = new App();
 		app.setBounds(0, 25, WIDTH, HEIGHT - 25);
@@ -51,21 +40,21 @@ public class App extends Canvas implements Runnable, KeyListener {
 		final JMenuItem highScore = new JMenuItem("High Score");
 		highScore.addActionListener((e) -> {
 			final int currentHighScore = 0;
-			
+
 			final JFrame alert = new JFrame("High Score");
-			
+
 			final JLabel scoreLabel = new JLabel("The high score is : " + currentHighScore);
 			scoreLabel.setBounds(10, 10, 200, 50);
 			alert.add(scoreLabel);
-			
+
 			final JButton okBtn = new JButton("OK");
 			okBtn.setBounds(50, 80, 100, 30);
 			okBtn.addActionListener((okBtnEvent) -> {
 				alert.dispose();
 			});
-			
+
 			alert.add(okBtn);
-			
+			alert.setAlwaysOnTop(true);
 			alert.setSize(200, 150);
 			alert.setLayout(null);
 			alert.setLocationRelativeTo(null);
