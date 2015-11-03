@@ -54,7 +54,6 @@ public class App extends Canvas implements Runnable, KeyListener {
 			});
 
 			alert.add(okBtn);
-			alert.setAlwaysOnTop(true);
 			alert.setSize(200, 150);
 			alert.setLayout(null);
 			alert.setLocationRelativeTo(null);
@@ -68,8 +67,14 @@ public class App extends Canvas implements Runnable, KeyListener {
 			System.exit(0);
 		});
 
+		final JMenuItem options = new JMenuItem("Options");
+		options.addActionListener((e) -> {
+			Config.openConfig(frame);
+		});
+
 		fileMenu.add(newGame);
 		fileMenu.add(highScore);
+		fileMenu.add(options);
 		fileMenu.add(exitGame);
 
 		menuBar.add(fileMenu);
