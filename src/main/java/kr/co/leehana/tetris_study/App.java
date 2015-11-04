@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
 
 public class App extends Canvas implements Runnable, KeyListener {
 
@@ -21,6 +22,11 @@ public class App extends Canvas implements Runnable, KeyListener {
 		frame.setLayout(null);
 
 		KeyGetter.loadKeys();
+		try {
+			Config.loadConfig();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		final App app = new App();
 		app.setBounds(0, 25, WIDTH, HEIGHT - 25);
