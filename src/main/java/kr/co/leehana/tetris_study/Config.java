@@ -97,7 +97,7 @@ public class Config {
 	}
 
 	public static void loadConfig() throws IOException {
-		File directory = new File(getDefaultSaveDirectory(), "/tetris");
+		File directory = new File(getDefaultSaveDirectory(), "/Tetris");
 		if (!directory.exists()) {
 			directory.mkdir();
 		}
@@ -159,7 +159,7 @@ public class Config {
 	}
 
 	public static void saveConfig() throws IOException {
-		File directory = new File(getDefaultSaveDirectory(), "/tetris");
+		File directory = new File(getDefaultSaveDirectory(), "/Tetris");
 		if (!directory.exists()) {
 			directory.mkdir();
 		}

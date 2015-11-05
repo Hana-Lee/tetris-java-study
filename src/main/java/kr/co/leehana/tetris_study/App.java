@@ -12,6 +12,7 @@ public class App extends Canvas implements Runnable, KeyListener {
 	private static final long serialVersionUID = 3679586979411270682L;
 
 	public static final int WIDTH = 400, HEIGHT = 565;
+	private Image[] blocks;
 
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("TETRIS");
@@ -99,6 +100,7 @@ public class App extends Canvas implements Runnable, KeyListener {
 
 	@Override
 	public void run() {
+		init();
 		boolean running = true;
 		while (running) {
 			update();
@@ -113,6 +115,17 @@ public class App extends Canvas implements Runnable, KeyListener {
 		}
 	}
 
+	public void init() {
+		requestFocus();
+		try {
+			blocks = ImageLoader.loadImage("/block.png", 25);
+		} catch (IOException e) {
+			System.out.println("Error loading in block.png");
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+
 	public void update() {
 
 	}
@@ -123,6 +136,7 @@ public class App extends Canvas implements Runnable, KeyListener {
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Calibri", Font.PLAIN, 20));
 		g.drawString("TETRIS", 170, 50);
+		g.drawImage(blocks[1], 100, 100, 25, 25, null);
 	}
 
 	@Override
