@@ -2,17 +2,16 @@ package kr.co.leehana.tetris_study;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 
-public class App extends Canvas implements Runnable, KeyListener {
+public class App extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = 3679586979411270682L;
 
 	public static final int WIDTH = 400, HEIGHT = 565;
 	private Image[] blocks;
+	private KeyController keyController;
 
 	public static void main(String[] args) {
 		final JFrame frame = new JFrame("TETRIS");
@@ -116,6 +115,8 @@ public class App extends Canvas implements Runnable, KeyListener {
 	}
 
 	public void init() {
+		keyController = new KeyController(this);
+		this.addKeyListener(keyController);
 		requestFocus();
 		try {
 			blocks = ImageLoader.loadImage("/block.png", 25);
@@ -127,7 +128,6 @@ public class App extends Canvas implements Runnable, KeyListener {
 	}
 
 	public void update() {
-
 	}
 
 	public void render(Graphics2D g) {
@@ -137,23 +137,5 @@ public class App extends Canvas implements Runnable, KeyListener {
 		g.setFont(new Font("Calibri", Font.PLAIN, 20));
 		g.drawString("TETRIS", 170, 50);
 		g.drawImage(blocks[1], 100, 100, 25, 25, null);
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }

@@ -188,4 +188,24 @@ public class Config {
 		}
 		return System.getProperty("user.home");
 	}
+
+	public static String getLeft() {
+		return left;
+	}
+
+	public static String getRotate() {
+		return rotate;
+	}
+
+	public static String getRight() {
+		return right;
+	}
+
+	public static String getDown() {
+		return down;
+	}
+
+	public static String getPause() {
+		return pause;
+	}
 }
