@@ -24,6 +24,11 @@ public class AppTest extends TestCase {
 		return new TestSuite(AppTest.class);
 	}
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+
 	/**
 	 * Rigourous Test :-)
 	 */

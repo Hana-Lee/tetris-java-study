@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Hana Lee
@@ -14,20 +16,35 @@ import java.util.Map;
  */
 public class KeyGetter {
 
-	private static Map<String, Integer> keys;
-	private static List<String> keyNames;
+	private static final Map<String, Integer> keys = new HashMap<>();
+	private static final List<String> keyNames = new ArrayList<>();
+	private static final String alphaPattern = "VK_([A-Z])";
 
 	public static void loadKeys() {
-		keys = new HashMap<>();
-		keyNames = new ArrayList<>();
-		Field[] fields = KeyEvent.class.getFields();
+		final String os = System.getProperty("os.name").toUpperCase();
+		final Field[] fields = KeyEvent.class.getFields();
 
-		for (Field fd : fields) {
-			if (Modifier.isStatic(fd.getModifiers())) {
-				if (fd.getName().startsWith("VK")) {
+		final Pattern pattern = Pattern.compile(alphaPattern);
+		for (Field field : fields) {
+			if (Modifier.isStatic(field.getModifiers())) {
+				String fieldName = field.getName();
+
+				Matcher m = pattern.matcher(fieldName);
+				if (fieldName.equals("VK_LEFT")
+						|| fieldName.equals("VK_RIGHT")
+						|| fieldName.equals("VK_DOWN")
+						|| fieldName.equals("VK_UP")
+						|| fieldName.equals("VK_SPACE")
+						|| m.matches()) {
 					try {
-						final int keyNum = fd.getInt(null);
-						final String keyName = KeyEvent.getKeyText(keyNum);
+						final int keyNum = field.getInt(null);
+						String keyName = "";
+						if (os.contains("MAC")) {
+							keyName = fieldName.replace("VK_", "");
+						} else if (os.contains("WIN")) {
+							keyName = KeyEvent.getKeyText(keyNum).toUpperCase();
+						}
+
 						keys.put(keyName, keyNum);
 						keyNames.add(keyName);
 					} catch (IllegalAccessException e) {

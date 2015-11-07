@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Hana Lee
@@ -14,7 +15,7 @@ import java.util.List;
  */
 public class Config {
 
-	private static String rotate = "Up", left = "Left", right = "Right", down = "Down", pause = "P";
+	private static String rotate = "UP", left = "LEFT", right = "RIGHT", down = "DOWN", pause = "P";
 	private static List<Choice> choices;
 
 	static {
@@ -28,19 +29,19 @@ public class Config {
 		options.setLocationRelativeTo(frame);
 		options.setLayout(null);
 
-		final Choice left = addChoice("Left", options, 30, 30);
+		final Choice left = addChoice("LEFT", options, 30, 30);
 		left.select(Config.left);
 
-		final Choice right = addChoice("Right", options, 150, 30);
+		final Choice right = addChoice("RIGHT", options, 150, 30);
 		right.select(Config.right);
 
-		final Choice down = addChoice("Down", options, 30, 80);
+		final Choice down = addChoice("DOWN", options, 30, 80);
 		down.select(Config.down);
 
-		final Choice rotate = addChoice("Rotate", options, 150, 80);
+		final Choice rotate = addChoice("ROTATE", options, 150, 80);
 		rotate.select(Config.rotate);
 
-		final Choice pause = addChoice("Pause", options, 30, 130);
+		final Choice pause = addChoice("PAUSE", options, 30, 130);
 		pause.select(Config.pause);
 
 		final JButton saveButton = new JButton("Save");
@@ -84,16 +85,7 @@ public class Config {
 	}
 
 	public static List<String> getKeyNames() {
-		List<String> result = new ArrayList<>();
-
-		for (String key : KeyGetter.getKeyNames()) {
-			result.add(key);
-			if (key.equalsIgnoreCase("F24")) {
-				break;
-			}
-		}
-
-		return result;
+		return KeyGetter.getKeyNames().stream().collect(Collectors.toList());
 	}
 
 	public static void loadConfig() throws IOException {
